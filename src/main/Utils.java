@@ -2,10 +2,12 @@ package main;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.Properties;
 
-import jline.console.ConsoleReader;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 /**
  * 
  * @author Nelli Welker, Etienne Onasch
@@ -13,6 +15,7 @@ import jline.console.ConsoleReader;
  */
 final class Utils {
 	private Utils() {}
+	
 	//Strings for reading properties file
 	public static final String MAIL_ADDRESS = "mailaddress";
 	public static final String USER_NAME = "username";
@@ -20,21 +23,39 @@ final class Utils {
 	public static final String PORT = "port";
 	
 	//Location and name of properties file
-	private static final String CONFIG_NAME = "config.txt";
+	private static final String CONFIG_FILE = "config.txt";
+	private static final String CONFIG_PATH = CONFIG_FILE;
 	
-	private static final String CONFIG_PATH = CONFIG_NAME;
 	
-	public static String readPassWordFromConsole() throws IOException {
+	
+	
+	public static String readPassword(){
 		
-	    System.out.println("Enter password for the email address in " + CONFIG_NAME + ":");
-	    String password = new ConsoleReader().readLine(new Character('*'));
-	    return password;
+		
+		String password = "";
+		
+		JPanel panel = new JPanel();
+		
+		JLabel label = new JLabel("Enter a password for the email in "+ CONFIG_FILE +":");
+		JPasswordField pass = new JPasswordField(10);
+		
+		
+		panel.add(label);
+		panel.add(pass);
+		String[] options = new String[]{"OK", "Cancel"};
+		int option = JOptionPane.showOptionDialog(null, panel, "Security",
+		                         JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE,
+		                         null, options, options[1]);
+		if(option == 0) {
+		    char[] cp = pass.getPassword();
+		    password = new String(cp);
+		    
+		}
+		
+		return password;
 	}
 	
-	/**
-	 * 
-	 * @return
-	 */
+	
 	public static Properties getProps() {
 		Properties props = new Properties();
 
