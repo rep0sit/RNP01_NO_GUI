@@ -83,7 +83,8 @@ final class SMTPFile {
 	private void loginSMTP() {
 		try {
 			smtpSocket = (SSLSocket) ((SSLSocketFactory) SSLSocketFactory.getDefault()).createSocket(hostName, port);
-
+			
+			
 			smtpIn = new BufferedReader(new InputStreamReader(smtpSocket.getInputStream()));
 			smtpOut = new OutputStreamWriter(smtpSocket.getOutputStream());
 			String result = smtpIn.readLine();
@@ -96,6 +97,10 @@ final class SMTPFile {
 			// Base64 encodete Login-Daten
 			String userNameEncoded = Base64.getEncoder().encodeToString(userName.getBytes());
 			String passwordEncoded = Base64.getEncoder().encodeToString(password.getBytes());
+			
+//			String encodedAuth = Base64.getEncoder().encodeToString
+//					(new StringBuilder(userName + "\0" +password).toString().getBytes());
+			
 			// AUTH PLAIN
 			sendCommand("AUTH PLAIN " + "\0" + userNameEncoded + "\0" + passwordEncoded);
 			
@@ -112,7 +117,7 @@ final class SMTPFile {
 
 		try {
 			
-
+			
 			
 			sendCommand("MAIL FROM: " + userEmail);
 			sendCommand("RCPT TO: " + recipient);
@@ -151,7 +156,7 @@ final class SMTPFile {
 			// Senden der kodierten File-Datei
 			smtpOut.write(encoded);
 
-			// Abschließen
+			// Abschlieï¿½en
 			smtpOut.write(CRLF);
 			smtpOut.write("--" + boundary + "--" + CRLF);
 			smtpOut.write(CRLF + "." + CRLF);

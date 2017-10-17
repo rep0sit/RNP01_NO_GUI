@@ -27,8 +27,6 @@ final class Utils {
 	private static final String CONFIG_PATH = CONFIG_FILE;
 	
 	
-	
-	
 	public static String readPassword(){
 		
 		

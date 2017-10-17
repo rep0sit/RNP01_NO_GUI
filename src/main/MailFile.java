@@ -25,9 +25,9 @@ public class MailFile {
 			int port = Integer.parseInt(props.getProperty(Utils.PORT));
 		
 			
-			SMTPFile smtp = new SMTPFile(recipient, attachment, userName, userEmail, password, hostName, port);
+			SMTPFile smtpFile = new SMTPFile(recipient, attachment, userName, userEmail, password, hostName, port);
 		    
-			smtp.sendFile();
+			smtpFile.sendFile();
 		}
 	}
 }
