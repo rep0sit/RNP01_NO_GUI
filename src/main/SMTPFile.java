@@ -42,7 +42,7 @@ final class SMTPFile {
 	//LOGFILE
 	private File logFile;
 	private FileWriter fw;
-	
+	private final String SEPARATOR = "################################################################";
 	
 	
 	public SMTPFile(String recipient, String attachment, String userName, String userEmail, String password, String hostName, int port) {
@@ -54,9 +54,6 @@ final class SMTPFile {
 		this.password = password;
 		this.hostName = hostName;
 		this.port = port;
-		
-		
-		//System.out.println(password);
 		
 		logFile = new File("logFile.txt");
 		try {
@@ -93,15 +90,14 @@ final class SMTPFile {
 			smtpIn = new BufferedReader(new InputStreamReader(smtpSocket.getInputStream()));
 			smtpOut = new OutputStreamWriter(smtpSocket.getOutputStream());
 			String result = smtpIn.readLine();
-			System.out.println("S: " + result);
 			
+			writeToLogFile(SEPARATOR);
+			
+			printAndWriteToLog("S: " + result);
 		
-			if(!sendCommand("HELO " + hostName)) {
-				// optional message
-			}
-			if(!sendCommand("AUTH PLAIN " + stringToBase64(userName + "\0" + userName + "\0" + password))) {
-				// optional message
-			}
+			sendCommand("HELO " + hostName);
+			
+			sendCommand("AUTH PLAIN " + stringToBase64(userName + "\0" + userName + "\0" + password));
 			
 			
 
@@ -116,22 +112,15 @@ final class SMTPFile {
 		
 		try {
 			
-		
-			if(!sendCommand("MAIL FROM: " + userEmail)) {
-				// optional message
-			}
-			if(!sendCommand("RCPT TO: " + recipient)) {
-				// optional message
-			}
-			if(!sendCommand("DATA")) {
-				// optional message
-			}
+			sendCommand("MAIL FROM: " + userEmail);
+			sendCommand("RCPT TO: " + recipient);
+			sendCommand("DATA");
 			
 		
 			// Header
 			smtpOut.write("From: " + userEmail + " " + CRLF);
 			smtpOut.write("To: " + recipient + " " + CRLF);
-			smtpOut.write("Subject: " + "Test" + " " + CRLF);
+			smtpOut.write("Subject: " + "attachment" + " " + CRLF);
 			
 			
 			// Body
@@ -139,17 +128,16 @@ final class SMTPFile {
 			smtpOut.write("Content-Type: multipart/mixed; boundary= " + boundary + " " + CRLF);
 			smtpOut.write(CRLF);
 			smtpOut.write("--" + boundary + CRLF);
+			
 			// Text der Nachricht
 			smtpOut.write("Content-Type: text/plain; charset=ISO-8859-1 " + CRLF);
-			//smtpOut.write("Content-Type: image/jpeg " + CRLF);
 			smtpOut.write(CRLF);
 			smtpOut.write("*ATTACHMENT SENT*" + CRLF);
 			smtpOut.write(CRLF);
 			smtpOut.write("--" + boundary + CRLF);
+			
 			// Datei als Anhang
 			String dateiName = attachment.substring(attachment.lastIndexOf("\\") + 1, attachment.length());
-			
-			
 			smtpOut.write("Content-Type: application/octet-stream " + CRLF);
 			smtpOut.write("Content-Transfer-Encoding: base64 " + CRLF);
 			smtpOut.write("Content-Disposition: attachment;" + CRLF + " filename=" + dateiName + CRLF);
@@ -173,8 +161,8 @@ final class SMTPFile {
 			smtpOut.write(CRLF + "." + CRLF);
 			
 			
-			if(!sendCommand("QUIT")) {
-				// optional message
+			if(sendCommand("QUIT")) {
+				writeToLogFile(SEPARATOR);
 			}
 		
 		} catch (Exception e) {
@@ -192,44 +180,47 @@ final class SMTPFile {
 		}
 	}
 	
-	
+	/**
+	 * Sends a command to the SMTP server.<br>
+	 * 
+	 * @param command
+	 * @return true if the SMTP server answers, false otherwise
+	 * @throws IOException
+	 */
 	private boolean sendCommand(String command) throws IOException {
-	
+		
+		String answer = "";
 		
 		smtpOut.write(command + CRLF);
 		smtpOut.flush();
-		System.out.println("C: " + command);
-		writeToLogFile(command);
-		String answer = smtpIn.readLine();
-		System.out.println("S: " + answer);
-		writeToLogFile(answer);
+		printAndWriteToLog("C: " + command);
+		answer = smtpIn.readLine();
+		printAndWriteToLog("S: " + answer);
 		
-		return answer.startsWith(Utils.positiveAnswerFirst3digits(command));
+		return answer.length() > 1;
 	}
 	
-	@SuppressWarnings("unused")
-	private boolean sendCommands(String...commands) throws IOException {
-		boolean allTrue = true;
+	
+	
+	private void printAndWriteToLog(String s) throws IOException {
+		System.out.println(s);
+		writeToLogFile(s);
+	}
+	
+	
+	private void writeToLogFile(String s) throws IOException {
 		
-		for(int i = 0; i < commands.length; i++) {
-			allTrue = allTrue && sendCommand(commands[i]);
-		}
-		
-		return allTrue;
+		Timestamp ts = new Timestamp(System.currentTimeMillis());
+		fw.write(ts.toString() + " ........... "+ s + "\n");
 	}
 	
 	private String stringToBase64(String string) {
 		return Base64.getEncoder().encodeToString(string.getBytes());
 	}
 	
-	private void writeToLogFile(String command) throws IOException {
-		Timestamp ts = new Timestamp(System.currentTimeMillis());
-		fw.write(ts.toString() + " ---> "+ command + "\n");
-	}
 	
 	private void closeFile() throws IOException {
 		fw.close();
 	}
-	
 	
 }
