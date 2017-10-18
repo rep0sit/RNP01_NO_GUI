@@ -116,6 +116,7 @@ final class SMTPFile {
 			sendCommand("RCPT TO: " + recipient);
 			sendCommand("DATA");
 			
+			printAndWriteToLog("[doing magic MIME stuff to send the attachment]");
 		
 			// Header
 			smtpOut.write("From: " + userEmail + " " + CRLF);
@@ -193,13 +194,18 @@ final class SMTPFile {
 		
 		smtpOut.write(command + CRLF);
 		smtpOut.flush();
-		printAndWriteToLog("C: " + command);
+		
+		if(!command.startsWith("AUTH PLAIN")) {
+			printAndWriteToLog("C: " + command);
+		}else {
+			printAndWriteToLog("C: " + "AUTH PLAIN [base64 encoded username and password not visible here!]");
+		}
+		
 		answer = smtpIn.readLine();
 		printAndWriteToLog("S: " + answer);
 		
 		return answer.length() > 1;
 	}
-	
 	
 	
 	private void printAndWriteToLog(String s) throws IOException {
