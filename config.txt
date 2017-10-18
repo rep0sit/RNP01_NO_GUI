@@ -1,4 +1,4 @@
 mailaddress: etienne.onasch@haw-hamburg.de	
-username: etienne.onasch
+username: abt897
 hostname: mailgate.informatik.haw-hamburg.de
 port: 465

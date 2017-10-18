@@ -29,6 +29,8 @@ final class SMTPFile {
 	private final String hostName;
 	private final int port;
 	
+	
+	
 	//STREAMS & READERS & SOCKET
 	private SSLSocket smtpSocket;
 	private BufferedReader smtpIn;
@@ -53,6 +55,9 @@ final class SMTPFile {
 		this.hostName = hostName;
 		this.port = port;
 		
+		
+		//System.out.println(password);
+		
 		logFile = new File("logFile.txt");
 		try {
 			fw = new FileWriter(logFile,true);
@@ -68,7 +73,7 @@ final class SMTPFile {
 	public void sendFile() {
 		loginSMTP();
 		sendMail();
-		quitSMTP();
+		//quitSMTP();
 		
 		try {
 			closeFile();
@@ -93,16 +98,9 @@ final class SMTPFile {
 			// HELO <SP> <domain> <CRLF>
 			sendCommand("HELO " + hostName);
 			
-
-			// Base64 encodete Login-Daten
-			String userNameEncoded = Base64.getEncoder().encodeToString(userName.getBytes());
-			String passwordEncoded = Base64.getEncoder().encodeToString(password.getBytes());
 			
-//			String encodedAuth = Base64.getEncoder().encodeToString
-//					(new StringBuilder(userName + "\0" +password).toString().getBytes());
+			sendCommand("AUTH PLAIN " + stringToBase64(userName + "\0" + userName + "\0" + password));
 			
-			// AUTH PLAIN
-			sendCommand("AUTH PLAIN " + "\0" + userNameEncoded + "\0" + passwordEncoded);
 			
 
 		} catch (IOException e) {
@@ -122,7 +120,8 @@ final class SMTPFile {
 			sendCommand("MAIL FROM: " + userEmail);
 			sendCommand("RCPT TO: " + recipient);
 			sendCommand("DATA");
-
+			
+			
 			// Header
 			smtpOut.write("From: " + userEmail + " " + CRLF);
 			smtpOut.write("To: " + recipient + " " + CRLF);
@@ -133,13 +132,16 @@ final class SMTPFile {
 			smtpOut.write(CRLF);
 			smtpOut.write("--" + boundary + CRLF);
 			// Text der Nachricht
-			smtpOut.write("Content-Type: text/plain; charset=ISO-8859-1 " + CRLF);
+			//smtpOut.write("Content-Type: text/plain; charset=ISO-8859-1 " + CRLF);
+			smtpOut.write("Content-Type: image/jpeg " + CRLF);
 			smtpOut.write(CRLF);
 			smtpOut.write("*ATTACHMENT SENT*" + CRLF);
 			smtpOut.write(CRLF);
 			smtpOut.write("--" + boundary + CRLF);
 			// Datei als Anhang
 			String dateiName = attachment.substring(attachment.lastIndexOf("\\") + 1, attachment.length());
+			
+			
 			smtpOut.write("Content-Type: application/octet-stream " + CRLF);
 			smtpOut.write("Content-Transfer-Encoding: base64 " + CRLF);
 			smtpOut.write("Content-Disposition: attachment;" + CRLF + " filename=" + dateiName + CRLF);
@@ -156,10 +158,13 @@ final class SMTPFile {
 			// Senden der kodierten File-Datei
 			smtpOut.write(encoded);
 
-			// Abschlie�en
+			// Abschliessen
 			smtpOut.write(CRLF);
 			smtpOut.write("--" + boundary + "--" + CRLF);
+			
 			smtpOut.write(CRLF + "." + CRLF);
+			sendCommand("QUIT");
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -169,27 +174,27 @@ final class SMTPFile {
 		try {
 			smtpIn.close();
 			smtpOut.close();
-			smtpSocket.close();
+			//smtpSocket.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	
-	private void sendCommand(String command) throws IOException {
+	private boolean sendCommand(String command) throws IOException {
 		smtpOut.write(command + CRLF);
 		smtpOut.flush();
-		System.out.println("send ---> "+ command);
+		System.out.println("send ---> " + command);
 		writeToLogFile(command);
 		String result = smtpIn.readLine();
-		System.out.println("receive ---> "+ result);	
+		System.out.println("receive ---> " + result);
 		writeToLogFile(result);
 		
-//		if(command.substring(0, 10).equals("AUTH PLAIN")){
-//			return (result.substring(0,  3).equals("334"));
-//		}
-		
-		//return (result.substring(0,  3).equals("250"));
+		return true;
+
+	}
+	private String stringToBase64(String string) {
+		return Base64.getEncoder().encodeToString(string.getBytes());
 	}
 	
 	private void writeToLogFile(String command) throws IOException {
