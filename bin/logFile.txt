@@ -1,0 +1,94 @@
+2017-10-18 15:46:59.956 ........... ################################################################
+2017-10-18 15:46:59.96 ........... S: 220 mailgate.informatik.haw-hamburg.de ESMTP Postfix
+2017-10-18 15:46:59.961 ........... C: HELO mailgate.informatik.haw-hamburg.de
+2017-10-18 15:46:59.977 ........... S: 250 mailgate.informatik.haw-hamburg.de
+2017-10-18 15:46:59.977 ........... C: AUTH PLAIN [base64 encoded username and password not visible here!]
+2017-10-18 15:46:59.996 ........... S: 235 2.7.0 Authentication successful
+2017-10-18 15:46:59.996 ........... C: MAIL FROM: etienne.onasch@haw-hamburg.de	
+2017-10-18 15:47:00.013 ........... S: 250 2.1.0 Ok
+2017-10-18 15:47:00.014 ........... C: RCPT TO: etienneonasch@web.de
+2017-10-18 15:47:00.067 ........... S: 250 2.1.5 Ok
+2017-10-18 15:47:00.068 ........... C: DATA
+2017-10-18 15:47:00.085 ........... S: 354 End data with <CR><LF>.<CR><LF>
+2017-10-18 15:47:00.086 ........... [doing magic MIME stuff to send the attachment]
+2017-10-18 15:47:00.088 ........... C: QUIT
+2017-10-18 15:47:00.115 ........... S: 250 2.0.0 Ok: queued as 53D462B496
+2017-10-18 15:47:00.115 ........... ################################################################
+2017-10-18 15:49:34.786 ........... ################################################################
+2017-10-18 15:49:34.79 ........... S: 220 mailgate.informatik.haw-hamburg.de ESMTP Postfix
+2017-10-18 15:49:34.791 ........... C: HELO mailgate.informatik.haw-hamburg.de
+2017-10-18 15:49:34.808 ........... S: 250 mailgate.informatik.haw-hamburg.de
+2017-10-18 15:49:34.808 ........... C: AUTH PLAIN [base64 encoded username and password not visible here!]
+2017-10-18 15:49:34.826 ........... S: 235 2.7.0 Authentication successful
+2017-10-18 15:49:34.826 ........... C: MAIL FROM: etienne.onasch@haw-hamburg.de	
+2017-10-18 15:49:34.844 ........... S: 250 2.1.0 Ok
+2017-10-18 15:49:34.845 ........... C: RCPT TO: etienneonasch@web.de
+2017-10-18 15:49:34.9 ........... S: 250 2.1.5 Ok
+2017-10-18 15:49:34.901 ........... C: DATA
+2017-10-18 15:49:34.918 ........... S: 354 End data with <CR><LF>.<CR><LF>
+2017-10-18 15:49:34.919 ........... [doing magic MIME stuff to send the attachment]
+2017-10-18 15:49:35.045 ........... C: QUIT
+2017-10-18 15:49:35.78 ........... S: 250 2.0.0 Ok: queued as 2A9D02B496
+2017-10-18 15:49:35.78 ........... ################################################################
+2017-10-18 15:50:25.861 ........... ################################################################
+2017-10-18 15:50:25.865 ........... S: 220 mailgate.informatik.haw-hamburg.de ESMTP Postfix
+2017-10-18 15:50:25.866 ........... C: HELO mailgate.informatik.haw-hamburg.de
+2017-10-18 15:50:25.882 ........... S: 250 mailgate.informatik.haw-hamburg.de
+2017-10-18 15:50:25.882 ........... C: AUTH PLAIN [base64 encoded username and password not visible here!]
+2017-10-18 15:50:25.901 ........... S: 235 2.7.0 Authentication successful
+2017-10-18 15:50:25.901 ........... C: MAIL FROM: etienne.onasch@haw-hamburg.de	
+2017-10-18 15:50:25.918 ........... S: 250 2.1.0 Ok
+2017-10-18 15:50:25.918 ........... C: RCPT TO: etienneonasch@web.de
+2017-10-18 15:50:25.972 ........... S: 250 2.1.5 Ok
+2017-10-18 15:50:25.975 ........... C: DATA
+2017-10-18 15:50:25.99 ........... S: 354 End data with <CR><LF>.<CR><LF>
+2017-10-18 15:50:25.99 ........... [doing magic MIME stuff to send the attachment]
+2017-10-18 15:50:25.993 ........... C: QUIT
+2017-10-18 15:50:26.032 ........... S: 250 2.0.0 Ok: queued as 3BB662B496
+2017-10-18 15:50:26.032 ........... ################################################################
+2017-10-18 15:52:36.59 ........... ################################################################
+2017-10-18 15:52:36.594 ........... S: 220 mailgate.informatik.haw-hamburg.de ESMTP Postfix
+2017-10-18 15:52:36.594 ........... C: HELO mailgate.informatik.haw-hamburg.de
+2017-10-18 15:52:36.612 ........... S: 250 mailgate.informatik.haw-hamburg.de
+2017-10-18 15:52:36.612 ........... C: AUTH PLAIN [base64 encoded username and password not visible here!]
+2017-10-18 15:52:36.63 ........... S: 235 2.7.0 Authentication successful
+2017-10-18 15:52:36.63 ........... C: MAIL FROM: etienne.onasch@haw-hamburg.de	
+2017-10-18 15:52:36.65 ........... S: 250 2.1.0 Ok
+2017-10-18 15:52:36.65 ........... C: RCPT TO: etienneonasch@web.de
+2017-10-18 15:52:36.72 ........... S: 250 2.1.5 Ok
+2017-10-18 15:52:36.721 ........... C: DATA
+2017-10-18 15:52:36.738 ........... S: 354 End data with <CR><LF>.<CR><LF>
+2017-10-18 15:52:36.739 ........... [doing magic MIME stuff to send the attachment]
+2017-10-18 15:52:45.234 ........... C: QUIT
+2017-10-18 15:52:45.569 ........... S: 250 2.0.0 Ok: queued as F1F3B2B496
+2017-10-18 15:52:45.569 ........... ################################################################
+2017-10-18 15:54:39.919 ........... ################################################################
+2017-10-18 15:54:39.923 ........... S: 220 mailgate.informatik.haw-hamburg.de ESMTP Postfix
+2017-10-18 15:54:39.923 ........... C: HELO mailgate.informatik.haw-hamburg.de
+2017-10-18 15:54:39.94 ........... S: 250 mailgate.informatik.haw-hamburg.de
+2017-10-18 15:54:39.941 ........... C: AUTH PLAIN [base64 encoded username and password not visible here!]
+2017-10-18 15:54:39.959 ........... S: 535 5.7.8 Error: authentication failed: authentication failure
+2017-10-18 15:54:39.96 ........... C: MAIL FROM: etienne.onasch@haw-hamburg.de	
+2017-10-18 15:54:39.977 ........... S: 250 2.1.0 Ok
+2017-10-18 15:54:39.978 ........... C: RCPT TO: etienneonasch@web.de
+2017-10-18 15:54:40.038 ........... S: 553 5.7.1 <etienne.onasch@haw-hamburg.de>: Sender address rejected: not logged in
+2017-10-18 15:54:40.038 ........... C: DATA
+2017-10-18 15:54:40.056 ........... S: 554 5.5.1 Error: no valid recipients
+2017-10-18 15:54:40.056 ........... **doing magic MIME stuff to send the attachment**
+2017-10-18 15:55:00.34 ........... ################################################################
+2017-10-18 15:55:00.344 ........... S: 220 mailgate.informatik.haw-hamburg.de ESMTP Postfix
+2017-10-18 15:55:00.345 ........... C: HELO mailgate.informatik.haw-hamburg.de
+2017-10-18 15:55:00.361 ........... S: 250 mailgate.informatik.haw-hamburg.de
+2017-10-18 15:55:00.362 ........... C: AUTH PLAIN [base64 encoded username and password not visible here!]
+2017-10-18 15:55:00.379 ........... S: 235 2.7.0 Authentication successful
+2017-10-18 15:55:00.38 ........... C: MAIL FROM: etienne.onasch@haw-hamburg.de	
+2017-10-18 15:55:00.397 ........... S: 250 2.1.0 Ok
+2017-10-18 15:55:00.398 ........... C: RCPT TO: etienneonasch@web.de
+2017-10-18 15:55:00.454 ........... S: 250 2.1.5 Ok
+2017-10-18 15:55:00.455 ........... C: DATA
+2017-10-18 15:55:00.471 ........... S: 354 End data with <CR><LF>.<CR><LF>
+2017-10-18 15:55:00.472 ........... **doing magic MIME stuff to send the attachment**
+2017-10-18 15:55:08.961 ........... **done**
+2017-10-18 15:55:08.966 ........... C: QUIT
+2017-10-18 15:55:09.287 ........... S: 250 2.0.0 Ok: queued as B03782B496
+2017-10-18 15:55:09.287 ........... ################################################################

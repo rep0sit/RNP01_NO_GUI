@@ -116,7 +116,7 @@ final class SMTPFile {
 			sendCommand("RCPT TO: " + recipient);
 			sendCommand("DATA");
 			
-			printAndWriteToLog("[doing magic MIME stuff to send the attachment]");
+			printAndWriteToLog("**doing magic MIME stuff to send the attachment**");
 		
 			// Header
 			smtpOut.write("From: " + userEmail + " " + CRLF);
@@ -154,12 +154,16 @@ final class SMTPFile {
 			encoded = Base64.getMimeEncoder().encodeToString(bytes);
 			// Senden der kodierten File-Datei
 			smtpOut.write(encoded);
-
+			
+			
+			printAndWriteToLog("**done**");
+			
 			// Abschliessen
 			smtpOut.write(CRLF);
 			smtpOut.write("--" + boundary + "--" + CRLF);
 			
 			smtpOut.write(CRLF + "." + CRLF);
+			
 			
 			
 			if(sendCommand("QUIT")) {
