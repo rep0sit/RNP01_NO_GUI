@@ -23,10 +23,8 @@ final class Utils {
 	public static final String PORT = "port";
 	
 	//Location and name of properties file
-	private static final String CONFIG_FILE = "config.txt";
-	private static final String CONFIG_PATH = CONFIG_FILE;
-	
-	
+	private static final String CONFIG_FILE = "config.properties";
+
 	public static String readPassword(){
 		
 		
@@ -60,7 +58,7 @@ final class Utils {
 		
 		FileInputStream inputStr = null;
 		try {
-			inputStr = new FileInputStream(CONFIG_PATH);
+			inputStr = new FileInputStream(CONFIG_FILE);
 			// Laden des Properties File
 			props.load(inputStr);
 		} catch (IOException io) {
@@ -76,4 +74,31 @@ final class Utils {
 		}
 		return props;
 	}
+	
+	/**
+	 * Returns the first three digits of a positive SMPT Server answer to 
+	 * a SMTP command.
+	 * @param command 
+	 * @return
+	 */
+	public static String positiveAnswerFirst3digits(String command) {
+		
+		if (command.startsWith("HELO") || 
+				command.startsWith("MAIL FROM") || 
+				command.startsWith("RCPT TO") || 
+				command.startsWith("QUIT")) {
+			return "250";
+		}else if(command.startsWith("AUTH PLAIN")) {
+			return "235";
+		}else if(command.startsWith("DATA")) {
+			return "354";
+		}else {
+			return "";
+		}
+		
+		
+	}
+	
+	
+	
 }

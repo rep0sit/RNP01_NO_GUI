@@ -2,7 +2,11 @@ package main;
 
 import java.io.IOException;
 import java.util.Properties;
-
+/**
+ * 
+ * @author Nelli Welker, Etienne Onasch
+ *
+ */
 public class MailFile {
 	
 	

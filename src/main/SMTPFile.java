@@ -73,7 +73,7 @@ final class SMTPFile {
 	public void sendFile() {
 		loginSMTP();
 		sendMail();
-		//quitSMTP();
+		quitSMTP();
 		
 		try {
 			closeFile();
@@ -93,13 +93,15 @@ final class SMTPFile {
 			smtpIn = new BufferedReader(new InputStreamReader(smtpSocket.getInputStream()));
 			smtpOut = new OutputStreamWriter(smtpSocket.getOutputStream());
 			String result = smtpIn.readLine();
-			System.out.println("receive ---> " + result);
-			// Um sicherzustellen, dass die beiden hosts kommunizieren
-			// HELO <SP> <domain> <CRLF>
-			sendCommand("HELO " + hostName);
+			System.out.println("S: " + result);
 			
-			
-			sendCommand("AUTH PLAIN " + stringToBase64(userName + "\0" + userName + "\0" + password));
+		
+			if(!sendCommand("HELO " + hostName)) {
+				// optional message
+			}
+			if(!sendCommand("AUTH PLAIN " + stringToBase64(userName + "\0" + userName + "\0" + password))) {
+				// optional message
+			}
 			
 			
 
@@ -111,29 +113,35 @@ final class SMTPFile {
 	private void sendMail() {
 
 		String boundary = "xyzzy_0123456789_xyzzy";
-		//String textTest = "Hello...i am here.";
-
+		
 		try {
 			
+		
+			if(!sendCommand("MAIL FROM: " + userEmail)) {
+				// optional message
+			}
+			if(!sendCommand("RCPT TO: " + recipient)) {
+				// optional message
+			}
+			if(!sendCommand("DATA")) {
+				// optional message
+			}
 			
-			
-			sendCommand("MAIL FROM: " + userEmail);
-			sendCommand("RCPT TO: " + recipient);
-			sendCommand("DATA");
-			
-			
+		
 			// Header
 			smtpOut.write("From: " + userEmail + " " + CRLF);
 			smtpOut.write("To: " + recipient + " " + CRLF);
 			smtpOut.write("Subject: " + "Test" + " " + CRLF);
+			
+			
 			// Body
 			smtpOut.write("MIME-Version: 1.0 " + CRLF);
 			smtpOut.write("Content-Type: multipart/mixed; boundary= " + boundary + " " + CRLF);
 			smtpOut.write(CRLF);
 			smtpOut.write("--" + boundary + CRLF);
 			// Text der Nachricht
-			//smtpOut.write("Content-Type: text/plain; charset=ISO-8859-1 " + CRLF);
-			smtpOut.write("Content-Type: image/jpeg " + CRLF);
+			smtpOut.write("Content-Type: text/plain; charset=ISO-8859-1 " + CRLF);
+			//smtpOut.write("Content-Type: image/jpeg " + CRLF);
 			smtpOut.write(CRLF);
 			smtpOut.write("*ATTACHMENT SENT*" + CRLF);
 			smtpOut.write(CRLF);
@@ -163,7 +171,11 @@ final class SMTPFile {
 			smtpOut.write("--" + boundary + "--" + CRLF);
 			
 			smtpOut.write(CRLF + "." + CRLF);
-			sendCommand("QUIT");
+			
+			
+			if(!sendCommand("QUIT")) {
+				// optional message
+			}
 		
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -174,7 +186,7 @@ final class SMTPFile {
 		try {
 			smtpIn.close();
 			smtpOut.close();
-			//smtpSocket.close();
+			smtpSocket.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -182,17 +194,30 @@ final class SMTPFile {
 	
 	
 	private boolean sendCommand(String command) throws IOException {
+	
+		
 		smtpOut.write(command + CRLF);
 		smtpOut.flush();
-		System.out.println("send ---> " + command);
+		System.out.println("C: " + command);
 		writeToLogFile(command);
-		String result = smtpIn.readLine();
-		System.out.println("receive ---> " + result);
-		writeToLogFile(result);
+		String answer = smtpIn.readLine();
+		System.out.println("S: " + answer);
+		writeToLogFile(answer);
 		
-		return true;
-
+		return answer.startsWith(Utils.positiveAnswerFirst3digits(command));
 	}
+	
+	@SuppressWarnings("unused")
+	private boolean sendCommands(String...commands) throws IOException {
+		boolean allTrue = true;
+		
+		for(int i = 0; i < commands.length; i++) {
+			allTrue = allTrue && sendCommand(commands[i]);
+		}
+		
+		return allTrue;
+	}
+	
 	private String stringToBase64(String string) {
 		return Base64.getEncoder().encodeToString(string.getBytes());
 	}
