@@ -9,7 +9,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.sql.Timestamp;
 import java.util.Base64;
-import java.util.stream.Stream;
 
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
@@ -26,6 +25,9 @@ final class SMTPFile {
 	private final String attachment;
 	private final String userName;
 	private final String userEmail;
+	
+	private final String shownTransmitter;;
+	
 	private final String password;
 	private final String hostName;
 	private final int port;
@@ -46,12 +48,16 @@ final class SMTPFile {
 	private final String SEPARATOR = "################################################################";
 	
 	
-	public SMTPFile(String recipient, String attachment, String userName, String userEmail, String password, String hostName, int port) {
+	SMTPFile(String recipient, String attachment, String userName, 
+			String userEmail, String password, String hostName, int port, String shownTransmitter) {
 		super();
 		this.recipient = recipient;
 		this.attachment = attachment;
 		this.userName = userName;
 		this.userEmail = userEmail;
+		
+		this.shownTransmitter = shownTransmitter;
+		
 		this.password = password;
 		this.hostName = hostName;
 		this.port = port;
@@ -120,7 +126,7 @@ final class SMTPFile {
 			printAndWriteToLog("**doing magic MIME stuff to send the attachment**");
 		
 			// Header
-			smtpOut.write("From: " + "dtrump@weisseshaus.cor" + " " + CRLF);
+			smtpOut.write("From: " + shownTransmitter + " " + CRLF);
 			smtpOut.write("To: " + recipient + " " + CRLF);
 			smtpOut.write("Subject: " + "attachment" + " " + CRLF);
 			
