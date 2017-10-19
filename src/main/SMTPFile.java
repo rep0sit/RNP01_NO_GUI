@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.sql.Timestamp;
 import java.util.Base64;
+import java.util.stream.Stream;
 
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
@@ -95,7 +96,7 @@ final class SMTPFile {
 			
 			printAndWriteToLog("S: " + result);
 		
-			sendCommand("HELO " + hostName);
+			sendCommand("EHLO " + hostName);
 			
 			sendCommand("AUTH PLAIN " + stringToBase64(userName + "\0" + userName + "\0" + password));
 			
@@ -119,7 +120,7 @@ final class SMTPFile {
 			printAndWriteToLog("**doing magic MIME stuff to send the attachment**");
 		
 			// Header
-			smtpOut.write("From: " + userEmail + " " + CRLF);
+			smtpOut.write("From: " + "dtrump@weisseshaus.cor" + " " + CRLF);
 			smtpOut.write("To: " + recipient + " " + CRLF);
 			smtpOut.write("Subject: " + "attachment" + " " + CRLF);
 			
@@ -196,6 +197,7 @@ final class SMTPFile {
 		
 		String answer = "";
 		
+		
 		smtpOut.write(command + CRLF);
 		smtpOut.flush();
 		
@@ -205,10 +207,31 @@ final class SMTPFile {
 			printAndWriteToLog("C: " + "AUTH PLAIN [base64 encoded username and password not visible here!]");
 		}
 		
-		answer = smtpIn.readLine();
-		printAndWriteToLog("S: " + answer);
+//		Stream<String> lines = smtpIn.lines();
+//		
+//		lines.forEach(e -> {
+//			try {
+//				printAndWriteToLog("S: " + e);
+//			} catch (IOException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			}
+//		});
+//		String line = "";
+//		while(!(answer = smtpIn.readLine()).isEmpty()){
+//			printAndWriteToLog("S: "+answer);
+//		}
 		
-		return answer.length() > 1;
+		do{
+			answer = smtpIn.readLine();
+			printAndWriteToLog("S: " + answer);
+		}while(answer.substring(3, 4).equals("-"));
+		
+		
+		
+		
+		
+		return true;
 	}
 	
 	
