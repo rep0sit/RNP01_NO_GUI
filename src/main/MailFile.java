@@ -11,7 +11,7 @@ public class MailFile {
 	
 	
 	public static void main(String...args) throws IOException {
-		if(args.length <= 2 || args.length > 3) {
+		if(args.length < 2 || args.length > 3) {
 			System.out.println("You must enter 2 Parameters: email and attachment");
 		}else {
 			Properties props = Utils.getProps();
